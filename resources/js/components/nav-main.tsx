@@ -25,6 +25,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { useActiveUrl } from '@/hooks/use-active-url';
 import { downloadFileWithProgress, resolveUrl } from '@/lib/utils';
 import { type NavItem } from '@/types';
 
@@ -39,6 +40,7 @@ export function NavMain({
     items: Array<NavItem | (Omit<NavItem, 'href'> & { items: NavItem[] })>;
 }) {
     const page = usePage();
+    const { currentUrl, urlIsActive } = useActiveUrl();
     const [downloadOpen, setDownloadOpen] = useState(false);
     const [downloadPercent, setDownloadPercent] = useState<number | null>(
         null,
@@ -61,7 +63,7 @@ export function NavMain({
 
             if (hasChildren) {
                 const hasActiveChild = item.items!.some((child) =>
-                    page.url.startsWith(resolveUrl(child.href)),
+                    urlIsActive(child.href, currentUrl),
                 );
 
                 if (hasActiveChild) {
@@ -89,7 +91,7 @@ export function NavMain({
 
             if (hasChildren) {
                 const hasActiveChild = item.items!.some((child) =>
-                    page.url.startsWith(resolveUrl(child.href)),
+                    urlIsActive(child.href, currentUrl),
                 );
 
                 if (hasActiveChild && !openItems[item.title]) {
@@ -100,7 +102,7 @@ export function NavMain({
                 }
             }
         });
-    }, [items, openItems, page.url]);
+    }, [items, openItems, currentUrl, urlIsActive]);
 
     const formatBytes = (bytes: number) => {
         if (!Number.isFinite(bytes) || bytes <= 0) {
@@ -254,10 +256,10 @@ export function NavMain({
                     const isOpen = openItems[item.title] || false;
                     const isActive = hasChildren
                         ? item.items!.some((child) =>
-                              page.url.startsWith(resolveUrl(child.href)),
+                              urlIsActive(child.href, currentUrl),
                           )
                         : 'href' in item
-                          ? page.url.startsWith(resolveUrl(item.href))
+                          ? urlIsActive(item.href, currentUrl)
                           : false;
 
                     return (
@@ -312,10 +314,9 @@ export function NavMain({
                                                         />
                                                         <SidebarMenuSubButton
                                                             asChild
-                                                            isActive={page.url.startsWith(
-                                                                resolveUrl(
-                                                                    child.href,
-                                                                ),
+                                                            isActive={urlIsActive(
+                                                                child.href,
+                                                                currentUrl,
                                                             )}
                                                             className="ml-3 pl-4 transition-all duration-200 group/subbutton hover:translate-x-1 hover:bg-primary/5 active:scale-[0.98]"
                                                             style={{
