@@ -167,10 +167,13 @@ export default function Show({ anggota }: ShowProps) {
                                 <div className="space-y-1 text-sm md:col-span-2">
                                     <div className="font-medium">Nama Panggilan</div>
                                     <div className="text-muted-foreground">
-                                        {anggota.nama_panggilan &&
+                                        {Array.isArray(anggota.nama_panggilan) &&
                                         anggota.nama_panggilan.length > 0
                                             ? anggota.nama_panggilan.join(', ')
-                                            : '-'}
+                                            : typeof anggota.nama_panggilan === 'string' &&
+                                                anggota.nama_panggilan.trim() !== ''
+                                              ? anggota.nama_panggilan
+                                              : '-'}
                                     </div>
                                 </div>
                             </div>
