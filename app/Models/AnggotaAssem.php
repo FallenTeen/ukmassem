@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AnggotaAssem extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'anggota_assem';
 
@@ -27,6 +29,11 @@ class AnggotaAssem extends Model
 
     protected $casts = [
         'nama_panggilan' => 'array',
+        'tanggal_lahir' => 'date',
+    ];
+
+    protected $appends = [
+        'nama_lengkap',
     ];
 
     public function user(): BelongsTo
