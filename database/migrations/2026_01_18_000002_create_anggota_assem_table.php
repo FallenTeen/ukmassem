@@ -24,6 +24,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('set null');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
