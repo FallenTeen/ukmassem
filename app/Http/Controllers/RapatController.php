@@ -257,9 +257,15 @@ class RapatController extends Controller
         $user = Auth::user();
         $canManage = $user && ($rapat->created_by === $user->id || $user->role === 'ketum_waketum');
 
+        $anggota = \App\Models\AnggotaAssem::with('user')
+            ->get()
+            ->sortBy('nama_lengkap')
+            ->values();
+
         return Inertia::render('Rapat/Show', [
             'rapat' => $rapat,
             'canManage' => $canManage,
+            'anggota' => $anggota,
         ]);
     }
 

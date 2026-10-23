@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { useInitials } from '@/hooks/use-initials';
+import FilterTableLayout from '@/components/filter-table-layout';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import type { Anggota, FilterAnggota, Paginator, Role, StatusAnggota } from '@/types/anggota';
@@ -135,7 +136,22 @@ export default function Index({ anggotas, filters }: IndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Kelola Anggota" />
 
-            <div className="flex flex-col gap-4 p-4 md:flex-row">
+            <div className="flex flex-col gap-4 p-4 md:h-[calc(100vh-4rem)]">
+                <div className="flex shrink-0 items-center justify-between gap-2">
+                    <div>
+                        <h1 className="text-lg font-semibold">Daftar Anggota</h1>
+                        <p className="text-sm text-muted-foreground">
+                            Total {anggotas.total} anggota terdaftar.
+                        </p>
+                    </div>
+                    <Link
+                        href="/kelola-anggota/create"
+                        className={buttonVariants({ variant: 'default', size: 'sm' })}
+                    >
+                        Tambah Anggota
+                    </Link>
+                </div>
+
                 {toast && (
                     <div className="fixed right-4 top-4 z-50 max-w-sm">
                         <div
@@ -159,11 +175,11 @@ export default function Index({ anggotas, filters }: IndexProps) {
                     </div>
                 )}
 
-                <div className="w-full space-y-4 md:w-72">
-                    <div className="rounded-lg border bg-background p-4">
-                        <h2 className="mb-3 text-sm font-semibold">Filter Anggota</h2>
-                        <div className="space-y-4">
-                            <div className="space-y-1">
+                <FilterTableLayout
+                    filterLabel="Filter Anggota"
+                    filterBody={
+                        <>
+                    <div className="space-y-1">
                                 <Label htmlFor="search">Cari</Label>
                                 <Input
                                     id="search"
@@ -280,29 +296,13 @@ export default function Index({ anggotas, filters }: IndexProps) {
                                     Terapkan
                                 </Button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex-1 space-y-4">
-                    <div className="flex items-center justify-between gap-2">
-                        <div>
-                            <h1 className="text-lg font-semibold">Daftar Anggota</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Total {anggotas.total} anggota terdaftar.
-                            </p>
-                        </div>
-                        <Link
-                            href="/kelola-anggota/create"
-                            className={buttonVariants({ variant: 'default', size: 'sm' })}
-                        >
-                            Tambah Anggota
-                        </Link>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-lg border bg-background">
+                        </>
+                    }
+                    table={
+                        <>
+                            <div className="min-h-0 flex-1 overflow-auto rounded-lg border bg-background">
                         <table className="w-full min-w-[720px] text-left text-sm">
-                            <thead className="border-b bg-muted/40 text-xs uppercase text-muted-foreground">
+                            <thead className="sticky top-0 z-10 border-b bg-muted text-xs uppercase text-muted-foreground">
                                 <tr>
                                     <th className="px-4 py-2">Anggota</th>
                                     <th className="px-4 py-2">NIM</th>
@@ -396,9 +396,9 @@ export default function Index({ anggotas, filters }: IndexProps) {
                                 ))}
                             </tbody>
                         </table>
-                    </div>
+                            </div>
 
-                    <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground md:flex-row">
+                            <div className="flex shrink-0 flex-col items-center justify-between gap-3 pt-4 text-xs text-muted-foreground md:flex-row">
                         <div>
                             Menampilkan {anggotas.from ?? 0} - {anggotas.to ?? 0} dari{' '}
                             {anggotas.total} data
@@ -429,19 +429,21 @@ export default function Index({ anggotas, filters }: IndexProps) {
                                 );
                             })}
                         </div>
-                    </div>
+                            </div>
+                        </>
+                    }
+                />
 
-                    <div className="fixed bottom-6 right-6 md:hidden">
-                        <Link
-                            href="/kelola-anggota/create"
-                            className={buttonVariants({
-                                variant: 'default',
-                                size: 'lg',
-                            })}
-                        >
-                            +
-                        </Link>
-                    </div>
+                <div className="fixed bottom-6 right-6 md:hidden">
+                    <Link
+                        href="/kelola-anggota/create"
+                        className={buttonVariants({
+                            variant: 'default',
+                            size: 'lg',
+                        })}
+                    >
+                        +
+                    </Link>
                 </div>
             </div>
         </AppLayout>

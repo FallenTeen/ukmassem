@@ -44,6 +44,12 @@ export default function Welcome() {
                                     >
                                         Lihat galeri
                                     </Link>
+                                    <Link
+                                        href="/portfolio"
+                                        className="inline-flex items-center rounded-full border border-white/30 px-6 py-2.5 text-sm font-semibold text-white/90 transition-all hover:scale-105 hover:border-white hover:bg-white/5 hover:text-white"
+                                    >
+                                        Portfolio proker
+                                    </Link>
                                 </div>
                             </div>
                         </ScrollReveal>

@@ -898,7 +898,7 @@ export default function Show({ rapat, canManage, anggota }: ShowProps) {
                                     </span>
                                     <Button
                                         type="button"
-                                        size="xs"
+                                        size="sm"
                                         variant="outline"
                                         disabled={!anySelected}
                                         onClick={() => handleBulkSetStatus('hadir')}
@@ -907,7 +907,7 @@ export default function Show({ rapat, canManage, anggota }: ShowProps) {
                                     </Button>
                                     <Button
                                         type="button"
-                                        size="xs"
+                                        size="sm"
                                         variant="outline"
                                         disabled={!anySelected}
                                         onClick={handleBulkReset}
@@ -1034,7 +1034,7 @@ export default function Show({ rapat, canManage, anggota }: ShowProps) {
                                                     <td className="px-3 py-2 text-right">
                                                         <Button
                                                             type="button"
-                                                            size="xs"
+                                                            size="sm"
                                                             variant="outline"
                                                             onClick={() =>
                                                                 handleRemove(item.anggota_id)
@@ -1088,7 +1088,7 @@ export default function Show({ rapat, canManage, anggota }: ShowProps) {
                                         />
                                         <Button
                                             type="button"
-                                            size="xs"
+                                            size="sm"
                                             onClick={handleAddManual}
                                             disabled={isAddingManual || !manualAnggotaId}
                                         >

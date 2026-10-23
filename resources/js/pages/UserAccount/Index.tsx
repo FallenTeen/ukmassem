@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import FilterTableLayout from '@/components/filter-table-layout';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import type { Anggota, Paginator, Role } from '@/types/anggota';
@@ -115,7 +116,7 @@ export default function Index({ anggotas }: IndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manajemen Akun User" />
 
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex flex-col gap-4 p-4 md:h-[calc(100vh-4rem)]">
                 {toast && (
                     <div className="max-w-sm rounded-md border px-4 py-3 text-sm shadow-sm">
                         <div
@@ -130,7 +131,7 @@ export default function Index({ anggotas }: IndexProps) {
                     </div>
                 )}
 
-                <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                <div className="flex shrink-0 flex-col justify-between gap-3 md:flex-row md:items-center">
                     <div>
                         <h1 className="text-lg font-semibold">Manajemen Akun User</h1>
                         <p className="text-sm text-muted-foreground">
@@ -148,10 +149,11 @@ export default function Index({ anggotas }: IndexProps) {
                     </div>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-                    <div className="space-y-3 rounded-lg border bg-background p-4">
-                        <h2 className="text-sm font-semibold">Filter</h2>
-                        <div className="space-y-2">
+                <FilterTableLayout
+                    filterLabel="Filter"
+                    filterBody={
+                        <>
+                            <div className="space-y-2">
                             <Label htmlFor="search">Cari</Label>
                             <Input
                                 id="search"
@@ -222,11 +224,13 @@ export default function Index({ anggotas }: IndexProps) {
                                 </SelectContent>
                             </Select>
                         </div>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-lg border bg-background">
+                        </>
+                    }
+                    table={
+                        <>
+                            <div className="min-h-0 flex-1 overflow-auto rounded-lg border bg-background">
                         <table className="w-full min-w-[720px] text-left text-sm">
-                            <thead className="border-b bg-muted/40 text-xs uppercase text-muted-foreground">
+                            <thead className="sticky top-0 z-10 border-b bg-muted text-xs uppercase text-muted-foreground">
                                 <tr>
                                     <th className="px-4 py-2">Nama</th>
                                     <th className="px-4 py-2">NIM</th>
@@ -303,15 +307,17 @@ export default function Index({ anggotas }: IndexProps) {
                                 })}
                             </tbody>
                         </table>
-                    </div>
+                            </div>
 
-                    <div className="md:col-span-2 flex items-center justify-between text-xs text-muted-foreground">
+                            <div className="flex shrink-0 items-center justify-between pt-4 text-xs text-muted-foreground">
                         <div>
                             Menampilkan {anggotas.from ?? 0} - {anggotas.to ?? 0} dari{' '}
                             {anggotas.total} data (server)
                         </div>
-                    </div>
-                </div>
+                            </div>
+                        </>
+                    }
+                />
             </div>
         </AppLayout>
     );

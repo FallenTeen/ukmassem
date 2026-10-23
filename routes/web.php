@@ -2,11 +2,15 @@
 
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GaleriAdminController;
+use App\Http\Controllers\GaleriPublikController;
+use App\Http\Controllers\KaryaSayaController;
 use App\Http\Controllers\MainProkerController;
 use App\Http\Controllers\MasterJenisRapatController;
 use App\Http\Controllers\ProkerController;
 use App\Http\Controllers\PresensiRapatController;
 use App\Http\Controllers\ProkerStrukturController;
+use App\Http\Controllers\ProkerPublikController;
 use App\Http\Controllers\RapatController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +23,6 @@ Route::get('/', function () {
 Route::get('/sejarah', function () {
     return Inertia::render('sejarah');
 })->name('sejarah');
-
-Route::get('/galeri', function () {
-    return Inertia::render('galeri');
-})->name('galeri');
 
 Route::prefix('divisi')->group(function () {
     Route::get('/', function () {
@@ -98,6 +98,57 @@ Route::prefix('kelola-anggota')
         Route::get('/{anggota}/edit', [AnggotaController::class, 'edit'])->name('edit');
         Route::put('/{anggota}', [AnggotaController::class, 'update'])->name('update');
         Route::delete('/{anggota}', [AnggotaController::class, 'destroy'])->name('destroy');
+    });
+
+Route::get('/galeri', [GaleriPublikController::class, 'landing'])
+    ->name('galeri');
+
+Route::get('/galeri/{jenis}', [GaleriPublikController::class, 'index'])
+    ->name('galeri.index')
+    ->whereIn('jenis', ['kegiatan', 'pagelaran', 'karya']);
+
+Route::get('/galeri/{jenis}/{slug}', [GaleriPublikController::class, 'show'])
+    ->name('galeri.show')
+    ->whereIn('jenis', ['kegiatan', 'pagelaran', 'karya']);
+
+Route::get('/portfolio', [ProkerPublikController::class, 'index'])
+    ->name('portfolio.index');
+
+Route::get('/portfolio/{mainProker}', [ProkerPublikController::class, 'show'])
+    ->name('portfolio.show');
+
+Route::prefix('galeri-admin')
+    ->middleware(['auth', 'verified', 'role:rajawebsite,dm,humas'])
+    ->name('galeri-admin.')
+    ->group(function (): void {
+        Route::get('/', [GaleriAdminController::class, 'index'])->name('index');
+        Route::get('/create', [GaleriAdminController::class, 'create'])->name('create');
+        Route::post('/', [GaleriAdminController::class, 'store'])->name('store');
+        Route::get('/{galeri}/edit', [GaleriAdminController::class, 'edit'])->name('edit');
+        Route::put('/{galeri}', [GaleriAdminController::class, 'update'])->name('update');
+        Route::delete('/{galeri}', [GaleriAdminController::class, 'destroy'])->name('destroy');
+        Route::post('/{galeri}/status', [GaleriAdminController::class, 'updateStatus'])
+            ->name('updateStatus');
+    });
+
+Route::prefix('galeri-admin')
+    ->middleware(['auth', 'verified', 'role:rajawebsite,dm,humas,kad_fot,kad_fil,kad_tar,kad_mus,kad_tea'])
+    ->name('galeri-admin.')
+    ->group(function (): void {
+        Route::get('/menunggu', [GaleriAdminController::class, 'menunggu'])->name('menunggu');
+        Route::post('/karya/{galeri}/setujui', [GaleriAdminController::class, 'setujui'])
+            ->name('setujui');
+        Route::post('/karya/{galeri}/tolak', [GaleriAdminController::class, 'tolak'])
+            ->name('tolak');
+    });
+
+Route::prefix('galeri/karya-saya')
+    ->middleware(['auth', 'verified'])
+    ->name('karya-saya.')
+    ->group(function (): void {
+        Route::get('/', [KaryaSayaController::class, 'index'])->name('index');
+        Route::get('/create', [KaryaSayaController::class, 'create'])->name('create');
+        Route::post('/', [KaryaSayaController::class, 'store'])->name('store');
     });
 
 require __DIR__.'/settings.php';

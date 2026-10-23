@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import FilterTableLayout from '@/components/filter-table-layout';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import type { Anggota, Paginator } from '@/types/anggota';
@@ -105,11 +106,25 @@ export default function Index({ prokers, mainProkers, filters }: IndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Daftar Proker" />
 
-            <div className="flex flex-col gap-4 p-4 md:flex-row">
-                <div className="w-full space-y-4 md:w-72">
-                    <div className="rounded-lg border bg-background p-4">
-                        <h2 className="mb-3 text-sm font-semibold">Filter Proker</h2>
-                        <div className="space-y-3">
+            <div className="flex flex-col gap-4 p-4 md:h-[calc(100vh-4rem)]">
+                <div className="flex shrink-0 items-center justify-between gap-2">
+                    <div>
+                        <h1 className="text-lg font-semibold">Daftar Proker</h1>
+                        <p className="text-sm text-muted-foreground">
+                            Total {prokers.total} proker terdaftar.
+                        </p>
+                    </div>
+                    <Link href="/proker/create">
+                        <Button type="button" size="sm">
+                            Tambah Proker
+                        </Button>
+                    </Link>
+                </div>
+
+                <FilterTableLayout
+                    filterLabel="Filter Proker"
+                    filterBody={
+                        <>
                             <div className="space-y-1">
                                 <Label htmlFor="tahun">Tahun</Label>
                                 <Input
@@ -169,28 +184,13 @@ export default function Index({ prokers, mainProkers, filters }: IndexProps) {
                                     Terapkan
                                 </Button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex-1 space-y-4">
-                    <div className="flex items-center justify-between gap-2">
-                        <div>
-                            <h1 className="text-lg font-semibold">Daftar Proker</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Total {prokers.total} proker terdaftar.
-                            </p>
-                        </div>
-                        <Link href="/proker/create">
-                            <Button type="button" size="sm">
-                                Tambah Proker
-                            </Button>
-                        </Link>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-lg border bg-background">
+                        </>
+                    }
+                    table={
+                        <>
+                            <div className="min-h-0 flex-1 overflow-auto rounded-lg border bg-background">
                         <table className="w-full min-w-[860px] text-left text-sm">
-                            <thead className="border-b bg-muted/40 text-xs uppercase text-muted-foreground">
+                            <thead className="sticky top-0 z-10 border-b bg-muted text-xs uppercase text-muted-foreground">
                                 <tr>
                                     <th className="px-4 py-2">Nama Proker</th>
                                     <th className="px-4 py-2">Main Proker</th>
@@ -272,9 +272,9 @@ export default function Index({ prokers, mainProkers, filters }: IndexProps) {
                                 })}
                             </tbody>
                         </table>
-                    </div>
+                            </div>
 
-                    <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground md:flex-row">
+                            <div className="flex shrink-0 flex-col items-center justify-between gap-3 pt-4 text-xs text-muted-foreground md:flex-row">
                         <div>
                             Menampilkan {prokers.from ?? 0} - {prokers.to ?? 0} dari{' '}
                             {prokers.total} data
@@ -305,8 +305,10 @@ export default function Index({ prokers, mainProkers, filters }: IndexProps) {
                                 );
                             })}
                         </div>
-                    </div>
-                </div>
+                            </div>
+                        </>
+                    }
+                />
             </div>
         </AppLayout>
     );

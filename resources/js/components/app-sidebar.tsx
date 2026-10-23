@@ -6,6 +6,8 @@ import {
     FileText,
     Folder,
     FolderKanban,
+    Images,
+    Inbox,
     LayoutGrid,
     UserCog,
     Users,
@@ -75,6 +77,41 @@ export function AppSidebar() {
             title: 'Data Master',
             icon: Database,
             items: dataMasterItems,
+        });
+    }
+
+    if (!hasAccess(['rajawebsite', 'dm', 'humas', ...kadivRoles])) {
+        mainNavItems.push({
+            title: 'Karya Saya',
+            href: '/galeri/karya-saya',
+            icon: Images,
+        });
+    } else {
+        const galeriItems: NavItem[] = [
+            {
+                title: 'Karya Saya',
+                href: '/galeri/karya-saya',
+                icon: Images,
+            },
+            {
+                title: 'Karya Menunggu',
+                href: '/galeri-admin/menunggu',
+                icon: Inbox,
+            },
+        ];
+
+        if (hasAccess(['rajawebsite', 'dm', 'humas'])) {
+            galeriItems.unshift({
+                title: 'Kelola Galeri',
+                href: '/galeri-admin',
+                icon: Images,
+            });
+        }
+
+        mainNavItems.push({
+            title: 'Galeri',
+            icon: Images,
+            items: galeriItems,
         });
     }
 

@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import FilterTableLayout from '@/components/filter-table-layout';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import type { Paginator } from '@/types/anggota';
@@ -149,11 +150,50 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Daftar Rapat" />
 
-            <div className="flex flex-col gap-4 p-4 md:flex-row">
-                <div className="w-full space-y-4 md:w-80">
-                    <div className="rounded-lg border bg-background p-4">
-                        <h2 className="mb-3 text-sm font-semibold">Filter Rapat</h2>
-                        <div className="space-y-3">
+            <div className="flex flex-col gap-4 p-4 md:h-[calc(100vh-4rem)]">
+                <div className="flex shrink-0 flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h1 className="text-lg font-semibold">Daftar Rapat</h1>
+                        <p className="text-sm text-muted-foreground">
+                            Total {rapats.total} rapat terdaftar.
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="flex rounded-md border bg-muted/40 text-xs">
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="secondary"
+                                className="flex items-center gap-1 rounded-none border-r px-3"
+                            >
+                                <ListChecks className="h-3 w-3" />
+                                List
+                            </Button>
+                            <Link href="/rapat/calendar">
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="ghost"
+                                    className="flex items-center gap-1 rounded-none px-3"
+                                >
+                                    <CalendarSearch className="h-3 w-3" />
+                                    Kalender
+                                </Button>
+                            </Link>
+                        </div>
+                        <Link href="/rapat/create">
+                            <Button type="button" size="sm">
+                                <Plus className="mr-2 h-4 w-4" />
+                                Tambah Rapat
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+
+                <FilterTableLayout
+                    filterLabel="Filter Rapat"
+                    filterBody={
+                        <>
                             <div className="space-y-1">
                                 <Label htmlFor="tanggal-start">Tanggal Mulai</Label>
                                 <Input
@@ -266,53 +306,13 @@ export default function Index({
                                     Terapkan
                                 </Button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex-1 space-y-4">
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                        <div>
-                            <h1 className="text-lg font-semibold">Daftar Rapat</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Total {rapats.total} rapat terdaftar.
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="flex rounded-md border bg-muted/40 text-xs">
-                                <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="secondary"
-                                    className="flex items-center gap-1 rounded-none border-r px-3"
-                                >
-                                    <ListChecks className="h-3 w-3" />
-                                    List
-                                </Button>
-                                <Link href="/rapat/calendar">
-                                    <Button
-                                        type="button"
-                                        size="sm"
-                                        variant="ghost"
-                                        className="flex items-center gap-1 rounded-none px-3"
-                                    >
-                                        <CalendarSearch className="h-3 w-3" />
-                                        Kalender
-                                    </Button>
-                                </Link>
-                            </div>
-                            <Link href="/rapat/create">
-                                <Button type="button" size="sm">
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    Tambah Rapat
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-lg border bg-background">
+                        </>
+                    }
+                    table={
+                        <>
+                            <div className="min-h-0 flex-1 overflow-auto rounded-lg border bg-background">
                         <table className="w-full min-w-[900px] text-left text-sm">
-                            <thead className="border-b bg-muted/40 text-xs uppercase text-muted-foreground">
+                            <thead className="sticky top-0 z-10 border-b bg-muted text-xs uppercase text-muted-foreground">
                                 <tr>
                                     <th className="px-4 py-2">Judul</th>
                                     <th className="px-4 py-2">Jenis</th>
@@ -384,9 +384,9 @@ export default function Index({
                                 ))}
                             </tbody>
                         </table>
-                    </div>
+                            </div>
 
-                    <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground md:flex-row">
+                            <div className="flex shrink-0 flex-col items-center justify-between gap-3 pt-4 text-xs text-muted-foreground md:flex-row">
                         <div>
                             Menampilkan {rapats.from ?? 0} - {rapats.to ?? 0} dari {rapats.total}{' '}
                             data
@@ -417,8 +417,10 @@ export default function Index({
                                 );
                             })}
                         </div>
-                    </div>
-                </div>
+                            </div>
+                        </>
+                    }
+                />
             </div>
         </AppLayout>
     );

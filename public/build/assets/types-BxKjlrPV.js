@@ -1,0 +1,1 @@
+const t={draft:"Draft",aktif:"Aktif",selesai:"Selesai",dibatalkan:"Dibatalkan"},e=a=>a?`/storage/${a}`:"/storage/main-proker/default.svg",r=a=>a?new Date(a).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";export{t as L,r as f,e as g};

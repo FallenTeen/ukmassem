@@ -44,7 +44,7 @@ export default function Splash() {
                     <img
                         src="/icons/assem.png"
                         alt="UKM ASSEM Logo"
-                        className="h-36 w-36 animate-pulse rounded-full border-2 border-white/20 bg-black/80 p-4 shadow-[0_0_60px_rgba(248,113,113,0.4)] md:h-40 md:w-40"
+                        className="h-40 w-40 animate-pulse object-contain drop-shadow-[0_0_45px_rgba(248,113,113,0.4)] md:h-48 md:w-48"
                         style={{
                             animationDuration: '2s',
                         }}

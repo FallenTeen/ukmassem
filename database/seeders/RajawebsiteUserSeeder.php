@@ -12,10 +12,10 @@ class RajawebsiteUserSeeder extends Seeder
     public function run(): void
     {
         $user = User::updateOrCreate(
-            ['email' => 'vlamingvlaming0@gmail.com'],
+            ['email' => 'testadmin@gmail.com'],
             [
                 'name' => 'Hanafi Dana Bastyan',
-                'password' => Hash::make('HanafiDanaBastyan123'),
+                'password' => Hash::make('12345678'),
                 'role' => 'rajawebsite',
             ]
         );
@@ -26,7 +26,7 @@ class RajawebsiteUserSeeder extends Seeder
                 'NIM' => '22SA11A056',
                 'nomor_anggota' => 'NA.22.SA.0008',
                 'tanggal_lahir' => '2004-01-21',
-                'nama_panggilan' => 'Hanafi Dana Bastyan',
+                'nama_panggilan' => ['Hanafi Dana Bastyan'],
                 'status_anggota' => 'anggota_tetap',
                 'divisi' => 'musik',
                 'angkatan' => 2022,

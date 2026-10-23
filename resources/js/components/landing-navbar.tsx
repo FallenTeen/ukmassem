@@ -15,7 +15,7 @@ export default function LandingNavbar() {
                     <img src="/icons/assem.png" alt="Logo UKM ASSEM" className="h-8 w-8 rounded-full" />
                     <div className="leading-tight">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-red-400 md:text-xs">
-                            UKM
+                            Unit Kegiatan Mahasiswa
                         </p>
                         <p className="text-sm font-semibold md:text-base">ASSEM</p>
                     </div>
@@ -36,6 +36,9 @@ export default function LandingNavbar() {
                     </Tooltip>
                     <Link href="/sejarah" className="transition-colors hover:text-white">
                         Sejarah
+                    </Link>
+                    <Link href="/portfolio" className="transition-colors hover:text-white">
+                        Portfolio
                     </Link>
                     <Link href="/galeri" className="transition-colors hover:text-white">
                         Galeri
@@ -79,6 +82,13 @@ export default function LandingNavbar() {
                         className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
                     >
                         Sejarah
+                    </Link>
+                    <Link
+                        href="/portfolio"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                    >
+                        Portfolio
                     </Link>
                     <Link
                         href="/galeri"

@@ -77,14 +77,12 @@ export default function DivisiIndex() {
                         <ScrollReveal direction="right" delay={200}>
                             <div className="flex justify-center md:justify-end">
                                 <div className="relative aspect-square w-full max-w-xs">
-                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-red-500/40 via-purple-500/30 to-blue-500/30 blur-3xl" />
-                                    <div className="relative flex h-full w-full items-center justify-center rounded-3xl border border-white/10 bg-black/60">
-                                        <img
-                                            src="/icons/assem.png"
-                                            alt="Logo UKM ASSEM"
-                                            className="h-32 w-32 rounded-full border border-white/10 bg-black/80 object-contain p-4 transition-transform duration-500 hover:scale-105"
-                                        />
-                                    </div>
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-red-500/40 via-purple-500/30 to-blue-500/30 blur-3xl" />
+                                    <img
+                                        src="/icons/assem.png"
+                                        alt="Logo UKM ASSEM"
+                                        className="relative h-full w-full object-contain drop-shadow-[0_0_35px_rgba(248,113,113,0.35)] transition-transform duration-500 hover:scale-105"
+                                    />
                                 </div>
                             </div>
                         </ScrollReveal>

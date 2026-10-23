@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Proker extends Model
@@ -36,6 +37,11 @@ class Proker extends Model
     public function ketuaPelaksana(): BelongsTo
     {
         return $this->belongsTo(AnggotaAssem::class, 'ketua_pelaksana_id');
+    }
+
+    public function galeris(): BelongsToMany
+    {
+        return $this->belongsToMany(Galeri::class, 'galeri_proker');
     }
 
     public function prokerStrukturs(): HasMany

@@ -53,7 +53,7 @@ export default function Sejarah() {
                                         <img
                                             src="/icons/assem.png"
                                             alt="Logo UKM ASSEM"
-                                            className="h-full w-full rounded-full border border-white/10 bg-black/60 object-contain p-4 shadow-[0_0_40px_rgba(248,113,113,0.4)] transition-transform duration-500 hover:scale-105 md:p-5"
+                                            className="h-full w-full object-contain drop-shadow-[0_0_35px_rgba(248,113,113,0.35)] transition-transform duration-500 hover:scale-105"
                                         />
                                     </div>
                                 </div>
