@@ -4,13 +4,17 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GaleriAdminController;
 use App\Http\Controllers\GaleriPublikController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\KaryaSayaController;
+use App\Http\Controllers\KategoriBarangController;
+use App\Http\Controllers\KatalogPublikController;
 use App\Http\Controllers\MainProkerController;
 use App\Http\Controllers\MasterJenisRapatController;
 use App\Http\Controllers\ProkerController;
 use App\Http\Controllers\PresensiRapatController;
 use App\Http\Controllers\ProkerStrukturController;
 use App\Http\Controllers\ProkerPublikController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\RapatController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Route;
@@ -117,6 +121,12 @@ Route::get('/portfolio', [ProkerPublikController::class, 'index'])
 Route::get('/portfolio/{mainProker}', [ProkerPublikController::class, 'show'])
     ->name('portfolio.show');
 
+Route::prefix('katalog-peminjaman')
+    ->name('katalog-peminjaman.')
+    ->group(function (): void {
+        Route::get('/', [KatalogPublikController::class, 'katalog'])->name('index');
+    });
+
 Route::prefix('galeri-admin')
     ->middleware(['auth', 'verified', 'role:rajawebsite,dm,humas'])
     ->name('galeri-admin.')
@@ -149,6 +159,50 @@ Route::prefix('galeri/karya-saya')
         Route::get('/', [KaryaSayaController::class, 'index'])->name('index');
         Route::get('/create', [KaryaSayaController::class, 'create'])->name('create');
         Route::post('/', [KaryaSayaController::class, 'store'])->name('store');
+    });
+
+Route::prefix('inventaris')
+    ->middleware(['auth', 'verified', 'role:rt,rajawebsite'])
+    ->name('inventaris.')
+    ->group(function (): void {
+        Route::get('/', [InventarisController::class, 'index'])->name('index');
+        Route::get('/create', [InventarisController::class, 'create'])->name('create');
+        Route::post('/', [InventarisController::class, 'store'])->name('store');
+
+        Route::prefix('kategori')
+            ->name('kategori.')
+            ->group(function (): void {
+                Route::get('/', [KategoriBarangController::class, 'index'])->name('index');
+                Route::post('/', [KategoriBarangController::class, 'store'])->name('store');
+                Route::put('/{kategori}', [KategoriBarangController::class, 'update'])->name('update');
+                Route::delete('/{kategori}', [KategoriBarangController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::get('/{inventari}', [InventarisController::class, 'show'])->name('show');
+        Route::get('/{inventari}/edit', [InventarisController::class, 'edit'])->name('edit');
+        Route::put('/{inventari}', [InventarisController::class, 'update'])->name('update');
+        Route::post('/{inventari}/toggle-pinjam', [InventarisController::class, 'togglePinjam'])->name('togglePinjam');
+        Route::delete('/{inventari}', [InventarisController::class, 'destroy'])->name('destroy');
+        Route::post('/{inventari}/adjust', [InventarisController::class, 'adjust'])->name('adjust');
+    });
+
+Route::prefix('peminjaman')
+    ->middleware(['auth', 'verified', 'role:rt,rajawebsite'])
+    ->name('peminjaman.')
+    ->group(function (): void {
+        Route::get('/', [PeminjamanController::class, 'index'])->name('index');
+        Route::get('/create', [PeminjamanController::class, 'create'])->name('create');
+        Route::post('/', [PeminjamanController::class, 'store'])->name('store');
+
+        Route::get('/pengaturan', [PeminjamanController::class, 'pengaturan'])->name('pengaturan');
+        Route::post('/pengaturan', [PeminjamanController::class, 'simpanPengaturan'])->name('pengaturan.simpan');
+
+        Route::get('/{peminjaman}', [PeminjamanController::class, 'show'])->name('show');
+        Route::post('/{peminjaman}/setujui', [PeminjamanController::class, 'setujui'])->name('setujui');
+        Route::post('/{peminjaman}/tolak', [PeminjamanController::class, 'tolak'])->name('tolak');
+        Route::post('/{peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])->name('kembalikan');
+        Route::post('/{peminjaman}/batal', [PeminjamanController::class, 'batal'])->name('batal');
+        Route::delete('/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('destroy');
     });
 
 require __DIR__.'/settings.php';

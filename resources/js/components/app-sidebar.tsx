@@ -1,14 +1,19 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BarChart3,
+    Boxes,
     CalendarDays,
     Database,
     FileText,
     Folder,
     FolderKanban,
+    Handshake,
     Images,
     Inbox,
     LayoutGrid,
+    Package,
+    Settings2,
+    Shapes,
     UserCog,
     Users,
 } from 'lucide-react';
@@ -30,7 +35,7 @@ import { type NavItem, type SharedData } from '@/types';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, menu } = usePage<SharedData>().props;
     const userRole = String(auth.user.role || '');
     const kadivRoles = ['kad_fot', 'kad_fil', 'kad_tar', 'kad_mus', 'kad_tea'];
 
@@ -155,6 +160,36 @@ export function AppSidebar() {
             title: 'Laporan',
             href: '/dashboard/statistik',
             icon: BarChart3,
+        });
+    }
+
+    if (hasAccess(['rt', 'rajawebsite'])) {
+        mainNavItems.push({
+            title: 'Kerumahtanggaan',
+            icon: Boxes,
+            items: [
+                {
+                    title: 'Inventaris',
+                    href: '/inventaris',
+                    icon: Package,
+                },
+                {
+                    title: 'Peminjaman',
+                    href: '/peminjaman',
+                    icon: Handshake,
+                    badge: menu?.peminjaman_menunggu ?? 0,
+                },
+                {
+                    title: 'Kategori Barang',
+                    href: '/inventaris/kategori',
+                    icon: Shapes,
+                },
+                {
+                    title: 'Pengaturan Pinjam',
+                    href: '/peminjaman/pengaturan',
+                    icon: Settings2,
+                },
+            ],
         });
     }
 

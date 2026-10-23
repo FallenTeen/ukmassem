@@ -20,12 +20,16 @@ export interface NavItem {
     href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | null;
     isActive?: boolean;
+    badge?: number;
 }
 
 export interface SharedData {
     name: string;
     auth: Auth;
     sidebarOpen: boolean;
+    menu?: {
+        peminjaman_menunggu?: number;
+    };
     [key: string]: unknown;
 }
 

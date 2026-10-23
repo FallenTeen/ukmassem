@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RapatSeeder::class,
             PresensiRapatSeeder::class,
             GaleriSeeder::class,
+            RtInventarisSeeder::class,
         ]);
     }
 }

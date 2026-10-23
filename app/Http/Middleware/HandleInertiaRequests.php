@@ -35,6 +35,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $role = $request->user()?->role;
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -42,6 +44,11 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'menu' => [
+                'peminjaman_menunggu' => in_array($role, ['rt', 'rajawebsite'], true)
+                    ? \App\Models\Peminjaman::query()->where('status', 'menunggu')->count()
+                    : 0,
+            ],
         ];
     }
 }

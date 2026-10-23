@@ -365,6 +365,11 @@ export function NavMain({
                                                                             child.title
                                                                         }
                                                                     </span>
+                                                                    {child.badge ? (
+                                                                        <span className="ml-auto inline-flex min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-semibold leading-4 text-white">
+                                                                            {child.badge}
+                                                                        </span>
+                                                                    ) : null}
                                                                 </Link>
                                                             )}
                                                         </SidebarMenuSubButton>
